@@ -1,0 +1,86 @@
+{
+  "info": {
+    "_postman_id": "ecommerce-product-api-collection",
+    "name": "Ecommerce Product API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for Product API endpoints."
+  },
+  "item": [
+    {
+      "name": "Get All Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4001/api/v1/products",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4001",
+          "path": ["api", "v1", "products"]
+        }
+      }
+    },
+    {
+      "name": "Get Products by Category",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4001/api/v1/products?category=Apparel",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4001",
+          "path": ["api", "v1", "products"],
+          "query": [{ "key": "category", "value": "Apparel" }]
+        }
+      }
+    },
+    {
+      "name": "Get Product by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4001/api/v1/product/{{productId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4001",
+          "path": ["api", "v1", "product", "{{productId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Set a sample productId if not set",
+              "if (!pm.variables.get('productId')) {",
+              "    pm.variables.set('productId', 'replace_with_a_real_id');",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create New Product (Admin Only)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"T-Shirt\",\n  \"description\": \"A cool t-shirt\",\n  \"highlights\": [\"100% cotton\", \"Unisex\"],\n  \"specifications\": [{\"title\": \"Material\", \"description\": \"Cotton\"}],\n  \"price\": 20,\n  \"cuttedPrice\": 25,\n  \"images\": [\"<base64 or url>\"],\n  \"brandname\": \"BrandX\",\n  \"logo\": \"<base64 or url>\",\n  \"category\": \"Apparel\",\n  \"stock\": 100\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4001/api/v1/admin/product/new",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4001",
+          "path": ["api", "v1", "admin", "product", "new"]
+        }
+      },
+      "description": "Requires admin authentication. Add an Authorization header with a valid token if needed."
+    }
+  ]
+}
